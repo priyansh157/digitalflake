@@ -15,9 +15,16 @@ function Topbar() {
   return (
     <nav className="navbar navbar-light" style={{ backgroundColor: '#662671' }}>
       <a className="navbar-brand" href="#">
-        <img src={`${process.env.PUBLIC_URL}/image_4.png`} height="60%" width="40%" style={{ marginLeft: '10%' }} className="d-inline-block align-top" alt="Logo" />
+        <img
+          src={`${process.env.PUBLIC_URL}/image_4.png`}
+          height="60%"
+          width="40%"
+          style={{ marginLeft: '10%' }}
+          className="d-inline-block align-top"
+          alt="Logo"
+        />
       </a>
-      
+
       <button
         className="btn btn-outline-light ml-auto"
         onClick={() => setShowModal(true)}

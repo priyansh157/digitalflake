@@ -1,28 +1,33 @@
-const jwt=require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
+const mysql = require('mysql');
 
-const auth=async(req,res,next)=>
-{
-    try {
-        const token=req.header('Authorization').replace('Bearer ','');
-        const decoded=jwt.verify(token,'test');
+const db = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "digitalflake",
+});
 
-        // find user in the db by email
+const auth = async (req, res, next) => {
+  try {
+    const token = req.header('Authorization').replace('Bearer ', '');
+    const decoded = jwt.verify(token, 'test');
+    const email = decoded._id;
 
-        if(!user)
-        {
-            console.log('no user found');
-            throw new Error();
-            
-        }
-            
-        req.token=token;
-        req.user=user;
-        next();
-        
-    } catch (error) {
-        res.status(401).send({error:"Please authenticate properly"});
-    }
+    const sql = "SELECT * FROM users WHERE email = ?";
+    db.query(sql, [email], (err, results) => {
+      if (err || results.length === 0) {
+        console.log('no user found');
+        return res.status(401).send({ error: "Please authenticate properly" });
+      }
 
-}
+      req.user = results[0];
+      req.token = token;
+      next();
+    });
+  } catch (error) {
+    res.status(401).send({ error: "Please authenticate properly" });
+  }
+};
 
-module.exports=auth;
+module.exports = auth;

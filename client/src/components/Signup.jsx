@@ -14,6 +14,8 @@ function Signup() {
       const response = await axios.post('http://localhost:5000/signup', { email, password, name });
       if (response.data.success) {
         navigate('/login'); 
+      } else {
+        console.log(response.data.message);
       }
     } catch (error) {
       console.error(error);
@@ -35,7 +37,7 @@ function Signup() {
         textAlign: 'center',
       }}
     >
-      <div className="signup-form" style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '10px' }}>
+      <div className="signup-form" style={{ backgroundColor: '#fff', padding: '5%', borderRadius: '10px' }}>
         <div className="logo">
           <img src={`${process.env.PUBLIC_URL}/image_4.png`} alt="Digitalflake Logo" style={{ maxWidth: '100%', height: 'auto' }} />
         </div>
